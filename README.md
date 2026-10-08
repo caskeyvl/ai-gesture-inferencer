@@ -18,7 +18,7 @@ The goal of the project is to:
 | Team Member | Primary Role |
 |---|---|
 | Tyler Pilat | Project Infrastructure / validate_dataset file |
-| [Name] | Augment file / Quality Assurance |
+| Logan Caskey | Augment file / Quality Assurance |
 | [Name] |  dataset / readme writeup|
 | Julian Werder | Model Training / train_demo file |
 | Jacob Thiel | Documentation / Final Integration |
