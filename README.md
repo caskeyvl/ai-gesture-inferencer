@@ -19,7 +19,7 @@ The goal of the project is to:
 |---|---|
 | Tyler Pilat | Project Infrastructure / validate_dataset file |
 | Logan Caskey | Augment file / Quality Assurance |
-| [Name] |  dataset / readme writeup|
+| Joel Ramos Silva |  dataset / readme writeup|
 | Julian Werder | Model Training / train_demo file |
 | Jacob Thiel | Documentation / Final Integration |
 
