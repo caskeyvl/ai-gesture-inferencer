@@ -59,32 +59,38 @@ Include:
 
 Include:
 
-- Starting position: Board flat and level, held at chest/neck height at the 12 o'clock point of the circle.
-- Direction of motion: Clockwise, seen by the team memeber.
-- Approximate motion size: About 30 cm in diameter
-- End position: Back at the 12 o'clock starting point, one full loop completed, device held still.
-- Any important restrictions:One loop only, completed in roughly one to two seconds. Smooth continuous speed — no stopping partway around. The board stays flat; do not rotate the wrist to follow the curve.
+- Starting position: Board flat and level at chest/neck height, at the top-left corner of the square
+- Direction of motion: Clockwise — top-left edge, top right edge, bottom right edge, bottom left edge
+- Approximate motion size: About 30 cm per side
+- End position: Back at the top-left corner, device held still.
+- Any important restrictions: One lap only, about two seconds total. Pause very briefly (roughly a tenth of a second) at each corners and move in straight lines between them. The pauses are
+  what distinguish a square from a circle in the data, so do not round them off.
+
+### `Triangle`
+
+- Starting position: Board flat and level at chest/neck height, at the bottom-left corner of the triangle.
+- Direction of motion: Clockwise — up and right to the apex, down and right to the bottom-right corner, then straight left along the base.
+- Approximate motion size: Roughly equilateral, about 30 cm per side.
+- End position: Back at the bottom-left corner, device held still.
+- Any important restrictions: One lap only, about 1.5 seconds. Pause briefly at each of the three corners, same as `square`. Straight edges between corners.
 
 
-### `[gesture_3]`
+### `Wave`
 
-[Describe exactly how this gesture is performed.]
+- Starting position: Board flat and level at chest height, arm centered in front of the body.
+- Direction of motion: Side to side horizontally — right, then left, repeating. No vertical component.
+- Approximate motion size: About 30 cm of travel in each direction.
+- End position: Arm back near the center, device held still.
+- Any important restrictions: 4–6 passes total within about two seconds, at a steady rhythm. Keep the board flat and level throughout, its an arm motion not a wrist flick or a tilt.
 
-### `[gesture_4]`
-
-[Describe exactly how this gesture is performed.]
 
 ### `idle`
 
-[Describe exactly what the participant does during an idle/background sample.]
-
-If idle is intended to represent non-gesture behavior, describe whether it includes:
-
-- Holding the device still
-- Natural hand movement
-- Small incidental motion
-- Normal resting behavior
-- Other non-gesture activity
+- Starting position: Board flat and level, held comfortably at chest height.
+- Direction of motion: None. Holds the device as still as you reasonably can.
+- Approximate motion size: None intended. Only the small involuntary motion of a held hand.
+- End position: Unchanged from the start.
+- Any important restrictions: Hold for about two seconds. The participant should not deliberately stiffen or brace against a surface — the idea is to see what a hand at rest actually looks like to the accelerometer, including gravity on the stationary axes.
 
 ---
 
