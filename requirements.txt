@@ -1,2 +1,6 @@
+HEAD
 numpy
 scikit-learn
+=======
+pyserial
+f1b9b7d (capture gesture commit)
