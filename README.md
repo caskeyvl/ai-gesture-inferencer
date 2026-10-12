@@ -542,19 +542,49 @@ Run the augmentation script:
 python scripts/augment.py
 ```
 
-If arguments are required, replace the command above with the exact final command.
-
-For example:
+By default, all 4 augmentation methods will be applied to all CSV files found at `data/raw/` and saved to `data/augmented/`. Augmented files will also be grouped by gesture, just as in `data/raw` (i.e. `data/augmented/circle`, for example). You can also specify individual files to augment, output path, and augmentation method(s), as follows: 
 
 ```bash
-python scripts/augment.py --input data/raw --output data/augmented
+python scripts/augment.py --input <path_to_input_file>.csv --output <output_path> --methods <augmentation_methods>
 ```
 
-Generated samples are written to:
+> [!NOTE]
+> When passing the `--input` arg, only paths to CSV files are accepted as arguments, and it will not recursively search a directory. If you'd like to pass all the files in a directory, use globbing e.g. `data/raw/circle/*.csv` for all circle gestures, for example. Globbing/paths are handled in `scripts/augment.py`, thus independent of terminal environment (e.g. this trick will still work in PowerShell).
+
+For example, running the following script:  
+
+```bash
+python scripts/augment.py --input data/raw/circle/p01_s01_circle_001.csv data/raw/square/p02_s01_square_001.csv --output data/augmented/ --methods scale shift
+```
+
+will result in the following files to be written: 
 
 ```text
-data/augmented/
+.
+├── data/
+│   ├── augmented/
+│   │    ├── circle/
+│   │    │    ├──  p01_s01_circle_001_scale.csv
+│   │    │    └──  p01_s01_circle_001_shift.csv
+│   │    │
+│   │    └── square/
+│   │         ├──  p02_s01_square_001_scale.csv
+│   │         └──  p02_s01_square_001_shift.csv
 ```
+
+
+The augmentation flags available are as follows:
+
+
+| Method Arguments | Description |
+| --- | --- |
+| jitter | Gaussian noise applied via np.random.normal() method |
+| scale | Amplitude scaling | 
+| shift | Temporal shift |
+| rotate | Small 3D rotation | 
+
+> ![Note]
+> Using `python augment.py --help` will return usage on how to use `augment.py` for quick referencing. 
 
 ---
 
