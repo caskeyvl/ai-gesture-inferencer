@@ -35,10 +35,10 @@ The dataset contains the following gesture classes:
 
 | Class | Description |
 |---|---|
-| `[gesture_1]` | [Describe the motion] |
-| `[gesture_2]` | [Describe the motion] |
-| `[gesture_3]` | [Describe the motion] |
-| `[gesture_4]` | [Describe the motion] |
+| `[circle]` | [Describe the motion] |
+| `[square]` | [Describe the motion] |
+| `[triangle]` | [Describe the motion] |
+| `[wave]` | [Describe the motion] |
 | `idle` | [Describe the neutral/background condition] |
 
 ## Gesture Definitions
