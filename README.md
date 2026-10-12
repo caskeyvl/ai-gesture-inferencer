@@ -35,29 +35,36 @@ The dataset contains the following gesture classes:
 
 | Class | Description |
 |---|---|
-| `[circle]` | [Describe the motion] |
-| `[square]` | [Describe the motion] |
-| `[triangle]` | [Describe the motion] |
-| `[wave]` | [Describe the motion] |
-| `idle` | [Describe the neutral/background condition] |
+| `[circle]` | One clockwise loop traced in the vertical plane in front of the body, ~30 cm across (size of A4 sheet of paper).  |
+| `[square]` | One clockwise square traced in the vertical plane, ~30 cm per side, with a brief pause at each corner.  |
+| `[triangle]` | One clockwise equilateral triangle traced in the vertical plane, ~30 cm per side, with a brief pause at each corner. |
+| `[wave]` | Repeated side-to-side horizontal sweeps, ~20 cm of travel, 4–6 passes. |
+| `idle` | No gesture. Device held still and level, with normal resting hand tremor. |
 
 ## Gesture Definitions
 
-### `[gesture_1]`
+### `circle`
 
 [Describe exactly how this gesture is performed.]
 
 Include:
 
-- Starting position
-- Direction of motion
-- Approximate motion size
-- End position
-- Any important restrictions
+- Starting position: Board flat and level, held at chest/neck height at the 12 o'clock point of the circle.
+- Direction of motion: Clockwise, seen by the team memeber.
+- Approximate motion size: About 30 cm in diameter
+- End position: Back at the 12 o'clock starting point, one full loop completed, device held still.
+- Any important restrictions:One loop only, completed in roughly one to two seconds. Smooth continuous speed — no stopping partway around. The board stays flat; do not rotate the wrist to follow the curve.
 
-### `[gesture_2]`
+### `Square`
 
-[Describe exactly how this gesture is performed.]
+Include:
+
+- Starting position: Board flat and level, held at chest/neck height at the 12 o'clock point of the circle.
+- Direction of motion: Clockwise, seen by the team memeber.
+- Approximate motion size: About 30 cm in diameter
+- End position: Back at the 12 o'clock starting point, one full loop completed, device held still.
+- Any important restrictions:One loop only, completed in roughly one to two seconds. Smooth continuous speed — no stopping partway around. The board stays flat; do not rotate the wrist to follow the curve.
+
 
 ### `[gesture_3]`
 
