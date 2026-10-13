@@ -228,7 +228,7 @@ Expected captures per participant:
 | `triangle` | 5 | 5 |
 | `wave` | 5 | 5 |
 | `idle` | 5 | 5 |
-| **Total** | **25** | **25** |
+| Total | 25 | 25 |
 ---
 
 # Variation During Collection
@@ -254,27 +254,32 @@ This variation was intentionally included to reduce the likelihood that the data
 
 The final raw dataset contains:
 
-- **Total captures:** [X]
-- **Participants:** [X]
-- **Sessions:** [X]
-- **Gesture classes:** [X]
+- **Total captures:** 125
+- **Participants:** 5
+- **Sessions:** 1 per participant
+- **Gesture classes:** 5
+
+Each capture is a 3.0-second window of 150 samples at 50 Hz, giving 18,750 raw
+accelerometer samples per class and 93,750 across the dataset.
 
 ## Class Distribution
 
 | Class | Number of Raw Captures |
 |---|---:|
-| `[gesture_1]` | [X] |
-| `[gesture_2]` | [X] |
-| `[gesture_3]` | [X] |
-| `[gesture_4]` | [X] |
-| `idle` | [X] |
-| **Total** | **[X]** |
+| `circle` | 25 |
+| `square` | 25 |
+| `triangle` | 25 |
+| `wave` | 25 |
+| `idle` | 25 |
+| **Total** | **125** |
 
 Describe the balance of the dataset:
 
-[For example: The dataset was designed so that each gesture class contains approximately the same number of recordings.]
-
+The dataset is exactly balanced. Every class contains 25 raw recordings, made up of 5 repetitions from each of the 5 participants, so no class is over- or under-represented and no single participant contributes more examples of one gesture than another. 
+Balance was designed in rather than corrected afterward: the collection protocol assigned every participant the same five classes and the same number of repetitions, and `scripts/validate_dataset.py` reports the per-class counts and warns if any class deviates more than 20% from the mean. The final validation run reports zero warnings.
 The dataset size was chosen to provide repeated examples of every class across multiple participants and sessions while remaining appropriate for a small course-scale gesture-recognition demonstration.
+
+The dataset size was chosen to provide repeated examples of every class across multiple participants while remaining appropriate for a small course-scale gesture-recognition demonstration. Augmentation expands the 125 raw recordings to 500 augmented recordings (four methods per file), which are stored separately and never replace the raw data.
 
 ---
 
@@ -287,10 +292,10 @@ The dataset size was chosen to provide repeated examples of every class across m
 │
 ├── data/
 │   ├── raw/
-│   │   ├── [gesture_1]/
-│   │   ├── [gesture_2]/
-│   │   ├── [gesture_3]/
-│   │   ├── [gesture_4]/
+│   │   ├── circle/
+│   │   ├── square/
+│   │   ├── triangle/
+│   │   ├── wave/
 │   │   └── idle/
 │   │
 │   └── augmented/
