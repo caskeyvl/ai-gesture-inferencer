@@ -150,14 +150,6 @@ Explain:
 - How long each capture lasts: 100 samples is a 2.0-second window at the nominal 50 Hz; at the measured rate the recorded captures span about 2.1–2.2 seconds. This was chosen to comfortably contain gestures that take one to two seconds, leaving a short lead-in before the motion and a tail after it.
 - Where the resulting CSV is saved: `data/raw/<gesture>/p##_s##_<gesture>_###.csv`. The script creates the gesture directory if needed, lowercases the gesture name, the participant, session, and repetition fields. Each file is written to a temporary name and renamed into place only after the capture completes, so an interrupted capture cannot leave a truncated CSV behind.
 
-If a phone application was used instead, describe the exact process for:
-
-1. Starting a recording
-2. Performing the gesture
-3. Stopping the recording
-4. Exporting the accelerometer data
-5. Saving or renaming the CSV file
-
 ---
 
 # Data Collection Procedure
@@ -179,15 +171,18 @@ Each participant followed the same basic data collection procedure.
 
 Additional instructions:
 
-- [Instruction]
-- [Instruction]
-- [Instruction]
+- Perform all repetitions of one gesture consecutively before moving to the next class, so the gesture definition stays fresh and consistent across the five repetitions.
+- Counts 1, 2, 3 and start the motion on "GO!" rather than before it, so the gesture falls inside the recorded window.
+- Keep the board level throughout; do not tilt or rotate the wrist to follow the shape.
+- Return to a still position at the end of the gesture and hold until the capture finishes.
+- Use exactly the five class names `circle`, `square`, `triangle`, `wave`, `idle`. The capture script creates a new directory for any name it is given, so a typo silently produces an unintended class.
+- Confirm after each session that `data/raw` contains exactly five directories and that each holds the expected number of files.
 
 ## Participants
 
 Number of participants:
 
-**[X participants]**
+**5 participants**
 
 Participant identifiers are anonymous and use the following format:
 
@@ -199,41 +194,41 @@ p04
 p05
 ```
 
-No personally identifying information is stored in the dataset.
+Each team member recorded as one participant. No personally identifying information is stored in the dataset. Participant numbers were assigned before collection so that two people could not record under the same identifier.
 
 ## Sessions
 
 Each participant collected data across:
 
-**[X sessions]**
+**1 sessions**
 
 Sessions are identified using:
 
 ```text
 s01
-s02
 ```
 
 Describe the separation between sessions:
 
-[For example: Sessions were recorded at different times of day, on different days, or after resetting the device.]
+Every participant recorded a single session, so all files carry `s01`. The session field exists in the filename convention so that additional sessions can be added later without changing the format.
+Variation in this dataset therefore comes from the five different participants rather than from any one participant recording on multiple occasions. Each participant recorded at a different time, on their own hardware setup, after independently flashing the firmware — so device orientation in the hand, gesture speed, and gesture amplitude vary between participants even though the session index does not.
 
 ## Repetitions
 
-Each participant recorded approximately:
+Each participant recorded:
 
-**[X repetitions per gesture per session]**
+**5 repetitions per gesture per session**
 
 Expected captures per participant:
 
-| Gesture | Session 1 | Session 2 | Total |
+| Gesture | Session 1 | Total |
 |---|---:|---:|---:|
-| `[gesture_1]` | [X] | [X] | [X] |
-| `[gesture_2]` | [X] | [X] | [X] |
-| `[gesture_3]` | [X] | [X] | [X] |
-| `[gesture_4]` | [X] | [X] | [X] |
-| `idle` | [X] | [X] | [X] |
-
+| `circle` | 5 | 5 |
+| `square` | 5 | 5 |
+| `triangle` | 5 | 5 |
+| `wave` | 5 | 5 |
+| `idle` | 5 | 5 |
+| **Total** | **25** | **25** |
 ---
 
 # Variation During Collection
@@ -242,14 +237,12 @@ To make the dataset more representative, participants were instructed to preserv
 
 Variation may include:
 
-- Different participants
-- Multiple recording sessions
-- Natural differences in gesture speed
-- Natural differences in gesture amplitude
-- Slight differences in movement direction
-- Slight differences in sensor orientation
+- Different participants - five people, each with different hand size, arm length, and natural gesture speed
+- Natural differences in gesture speed within the one-to-two-second guideline
+- Natural differences in gesture amplitude around the nominal 30 cm shape size
+- Slight differences in movement direction and in how precisely the traced shape closes
+- Slight differences in sensor orientation, since the board is hand-held rather than mounted
 - Natural differences in how strongly the device is moved
-- [Other intentionally collected variation]
 
 Participants were still required to follow the same core gesture definition so that class labels remained consistent.
 
@@ -421,37 +414,42 @@ python scripts/validate_dataset.py
 
 The validation script is intended to check:
 
-- Required CSV columns
-- Empty files
-- Unreadable files
-- Missing accelerometer values
-- Invalid filename formatting
-- Gesture labels
-- Participant identifiers
-- Session identifiers
+- Required CSV columns that are present: `timestamp`, `accel_x`, `accel_y`, `accel_z`
+- Files are readable and non-empty
+- No missing, non-numeric, or non-finite accelerometer values
+- Filenames match the `p##_s##_<gesture>_###.csv` convention
+- No duplicate participant/session/gesture/repetition combinations
 - Number of captures
 - Class distribution
 - Dataset balance
-- [Any additional implemented checks]
+- Class counts, participant counts, and session counts are reported
 
 Example output:
 
 ```text
-Dataset Validation
-------------------
-Files checked: XXX
-Valid files: XXX
-Invalid files: 0
+Summary
+-------
+CSV files checked   : 25
+Valid files         : 25
+Files with errors   : 0
+Errors              : 0
+Warnings            : 0
+Shortest capture    : 150 rows
+Longest capture     : 150 rows
+Average capture     : 150.0 rows
 
-Class counts:
-gesture_1: XX
-gesture_2: XX
-gesture_3: XX
-gesture_4: XX
-idle: XX
+Class counts
+------------
+circle   : 5
+idle     : 5
+square   : 5
+triangle : 5
+wave     : 5
+
+RESULT: PASS
 ```
 
-Update this section so it only claims checks that are actually implemented by the final validation script.
+Participant and session identifiers are counted and reported, but are not verified against a roster — the script cannot tell a valid participant number from a mistyped one, only that the format is well-formed.
 
 ---
 
@@ -470,7 +468,6 @@ Possible rejection criteria include:
 - Recording contains the wrong gesture
 - Corrupted or unreadable file
 - Large portions of missing data
-- [Other criteria used by the team]
 
 ## Final Known Data Quality Issues
 
@@ -640,42 +637,30 @@ The demonstration performs the following steps:
 
 Model used:
 
-**[Model type]**
-
-Possible examples include:
-
-- Multilayer Perceptron
-- Random Forest
-- Logistic Regression
-- Support Vector Machine
-- Small 1D CNN
+**Random Forest classifier** (scikit-learn, 100 trees, `random_state=0`)
 
 ## Model Rationale
 
-[Briefly explain why the model was selected.]
+A Random Forest was chosen because it trains in seconds on a dataset of this size, needs no feature scaling or hyperparameter search, and gives a stable baseline with a fixed random seed. 
+The purpose here is to show that the dataset loads and trains, not to maximize accuracy, so a model with few moving parts is the right choice.
 
-Example:
-
-> A Random Forest classifier was chosen because it provides a simple baseline that can train quickly on a relatively small gesture dataset.
+Each recording is reduced to a fixed-length feature vector of per-axis summary statistics: 
+mean, standard deviation, minimum, maximum, peak-to-peak range, and RMS, computed over each of the three axes and the signal magnitude. 
+This makes every recording the same size regardless of its length, at the cost of discarding the order in which samples occurred — see Dataset Limitations.
 
 ---
 
 # Train/Test Split
 
-Describe how training and testing samples are separated.
+The split holds out **whole participants**. All recordings from a held-out participant go to the test set and none of them appear in training, so test accuracy measures whether a gesture can be recognized from a person the model has never seen.
 
-Include:
+- Split unit: participant
+- Random seed: fixed (`random_state=0`), so the split is reproducible
+- Augmented recordings derived from a held-out participant's captures are excluded from training entirely
 
-- Training percentage
-- Testing percentage
-- Random seed if used
-- Whether the split is performed by file, session, or participant
+That last point is the important one. Augmentation produces four near-copies of every raw recording. If a jittered copy of a test recording were left in the training set, the model would effectively be tested on data it had already seen and would report an inflated accuracy. `splitData()` in `scripts/train_demo.py` drops those copies rather than only separating the raw files.
 
-Example:
-
-> The dataset was divided into 80% training data and 20% testing data using a fixed random seed.
-
-If possible, consider splitting by participant or session to reduce the risk of nearly identical recordings from the same collection session appearing in both training and testing sets.
+If only one participant is present, the script falls back to splitting by recording and prints a notice that it has done so. The participant-level split is the one used for the reported results.
 
 ---
 
@@ -849,7 +834,6 @@ Several steps were taken to improve dataset reliability.
 - Multiple capture sessions were used.
 - Corrupt or invalid samples were re-recorded when possible.
 - Raw recordings were preserved separately from augmented recordings.
-- [Additional team procedure]
 
 ---
 
@@ -873,7 +857,7 @@ These limitations should be considered when interpreting model performance or us
 
 # Contributions
 
-## [Name]
+## Tyler Pilat
 
 Primary role:
 
@@ -889,7 +873,7 @@ Responsibilities:
 - Dataset validation script
 - Initial README structure
 
-## [Name]
+## Logan Caskey
 
 Primary role:
 
@@ -905,7 +889,7 @@ Responsibilities:
 - Identify invalid recordings
 - Organize final raw dataset
 
-## [Name]
+## Logan Caskey
 
 Primary role:
 
@@ -919,7 +903,7 @@ Responsibilities:
 - Test generated data
 - Document augmentation behavior
 
-## [Name]
+## Julian Werder
 
 Primary role:
 
@@ -934,7 +918,7 @@ Responsibilities:
 - Evaluate the classifier
 - Report results
 
-## [Name]
+## Joel Ramos Silva & Jacob Thiel
 
 Primary role:
 
@@ -984,7 +968,7 @@ Before submission, the team should verify:
 - [ ] Model results are documented.
 - [ ] `requirements.txt` contains all required dependencies.
 - [ ] Commands in this README were tested in a clean environment.
-- [ ] Dataset limitations are documented.
+- [ ] Dataset  are documented.
 - [ ] Repository structure is clean and understandable.
 - [ ] Assignment self-check/bundle tool has been run.
 - [ ] Final repository was reviewed against the assignment rubric.
