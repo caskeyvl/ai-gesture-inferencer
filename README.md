@@ -35,17 +35,18 @@ The dataset contains the following gesture classes:
 
 | Class | Description |
 |---|---|
-| `[circle]` | One clockwise loop traced in the vertical plane in front of the body, ~30 cm across (size of A4 sheet of paper).  |
-| `[square]` | One clockwise square traced in the vertical plane, ~30 cm per side, with a brief pause at each corner.  |
-| `[triangle]` | One clockwise equilateral triangle traced in the vertical plane, ~30 cm per side, with a brief pause at each corner. |
-| `[wave]` | Repeated side-to-side horizontal sweeps, ~20 cm of travel, 4–6 passes. |
+| `circle` | One clockwise loop traced in the vertical plane in front of the body, ~30 cm across (size of A4 sheet of paper).  |
+| `square` | One clockwise square traced in the vertical plane, ~30 cm per side, with a brief pause at each corner.  |
+| `triangle` | One clockwise equilateral triangle traced in the vertical plane, ~30 cm per side, with a brief pause at each corner. |
+| `wave` | Repeated side-to-side horizontal sweeps, ~20 cm of travel, 4–6 passes. |
 | `idle` | No gesture. Device held still and level, with normal resting hand tremor. |
 
 ## Gesture Definitions
 
 ### `circle`
 
-[Describe exactly how this gesture is performed.]
+All gestures are performed with the board held flat in the dominant hand,
+components facing up, USB connector pointing toward the wrist.
 
 Include:
 
@@ -55,7 +56,7 @@ Include:
 - End position: Back at the 12 o'clock starting point, one full loop completed, device held still.
 - Any important restrictions:One loop only, completed in roughly one to two seconds. Smooth continuous speed — no stopping partway around. The board stays flat; do not rotate the wrist to follow the curve.
 
-### `Square`
+### `square`
 
 Include:
 
@@ -66,7 +67,7 @@ Include:
 - Any important restrictions: One lap only, about two seconds total. Pause very briefly (roughly a tenth of a second) at each corners and move in straight lines between them. The pauses are
   what distinguish a square from a circle in the data, so do not round them off.
 
-### `Triangle`
+### `triangle`
 
 - Starting position: Board flat and level at chest/neck height, at the bottom-left corner of the triangle.
 - Direction of motion: Clockwise — up and right to the apex, down and right to the bottom-right corner, then straight left along the base.
@@ -75,7 +76,7 @@ Include:
 - Any important restrictions: One lap only, about 1.5 seconds. Pause briefly at each of the three corners, same as `square`. Straight edges between corners.
 
 
-### `Wave`
+### `wave`
 
 - Starting position: Board flat and level at chest height, arm centered in front of the body.
 - Direction of motion: Side to side horizontally — right, then left, repeating. No vertical component.
