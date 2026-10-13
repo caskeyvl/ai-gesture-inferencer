@@ -101,24 +101,24 @@ Include:
 
 Data was collected using:
 
-- **Board:** [Board name]
-- **Accelerometer:** [Accelerometer name/model]
+- **Board:** STM32F4 Discovery (STM32F407VG), board revision MB997C/MB997D
+- **Accelerometer:** STMicroelectronics LIS3DSH, 3-axis MEMS, 16-bit output, ±2 g full scale, read over SPI1
 - **Accelerometer axes:** X, Y, Z
-- **Sampling rate:** [XX Hz]
-- **Acceleration units:** [m/s² / g]
-- **Other relevant hardware:** [If applicable]
+- **Sampling rate:** 50 Hz as recorded (see note below)
+- **Acceleration units:** mg (milligravity; 1000 mg = 1 g)
+- **Other relevant hardware:** USB-to-serial (USB-UART) adapter connected to USART2 on PA2/PA3 at 115200 8N1; ST-LINK/V2 (on-board) used only for flashing
 
 ## Sensor Placement
 
 The sensor was:
 
-[Describe exactly where and how the board or sensor was held, mounted, worn, or oriented.]
+The board was held flat in the participant's dominant hand, components facing up, with the USB connector pointing toward the wrist.
+Participants were asked to hold the board level and to keep it level throughout each gesture — the traced shape is produced by moving the whole hand and
+forearm, no tilting or rotating the wrist. Because the board is held level, gravity showed almost entirely on the Z axis at rest, which is visible in the data as Z ≈ 1000 mg with X and Y near zero.
 
 Example:
 
-> The development board was held in the participant's dominant hand with the USB connector facing toward the wrist.
-
-Describe any orientation requirements that participants were expected to follow.
+> The development board was held in the participant's dominant hand with the USB connector facing toward the wrist. The elbow was bent roughly 90 degrees with the board at chest to neck height. Participants stood still; the gesture was not produced by walking or turning the body.
 
 ---
 
@@ -126,25 +126,29 @@ Describe any orientation requirements that participants were expected to follow.
 
 Data was captured using:
 
-- **Capture method:** [STM32 UART capture / SensorLogger / Phyphox / other]
-- **Software/tool:** [Name]
-- **Software version:** [Version if relevant]
-- **Computer/phone platform:** [Windows / Linux / Android / iOS / other]
+- **Capture method:** STM32 UART capture over a USB-to-serial adapter
+- **Software/tool:** `scripts/capture_gesture.py` (in this repository), paired with the course `stm32f4_accelerometer_example` firmware
+- **Software version:** Python 3 with `pyserial`; firmware built from the course example repository with the print interval changed to 20 ms as described under Hardware
+- **Computer/phone platform:** macOS (the script is platform-independent; only the serial port name differs — `/dev/tty.usbserial-*` on macOS, `/dev/ttyUSB*` on Linux, `COM*` on Windows)
+
+The firmware idles after boot and prints `READY`. It captures only when the host sends a `START <n>` command, then streams exactly `n` reading lines and prints `DONE`. This makes each capture a bounded, scripted event rather than a free-running stream that has to be trimmed afterward.
+
 
 ## Capture Command
 
 If a command-line capture process was used, include the exact command:
 
 ```bash
-[INSERT EXACT DATA CAPTURE COMMAND]
+python3 scripts/capture_gesture.py --port /dev/tty.usbserial-0001 \
+    --gesture circle --participant 1 --session 1 --reps 5 --samples 150
 ```
 
 Explain:
 
-- What the command does
-- Which device or serial port it uses
-- How long each capture lasts
-- Where the resulting CSV is saved
+- What the command does: it opens the serial port, and then for each of the `--reps` repetitions it waits for the participant to press Enter, counts down three seconds, sends `START 150` to the board, reads exactly 150 reading lines, and writes them to a CSV. Each repetition is a separate file. The command is run once per gesture class, changing only `--gesture`.
+- Which device or serial port it uses: the `--port` argument names the USB-to-serial adapter wired to the board's USART2 pins (adapter RX to PA2, adapter TX to PA3). The ST-LINK's own USB connection is not used for data, it carries no accelerometer stream.
+- How long each capture lasts: 150 samples at 50 Hz is a 3.0-second window. This was chosen to comfortably contain gestures that take one to two seconds, leaving a short lead-in before the motion and a tail after it.
+- Where the resulting CSV is saved: `data/raw/<gesture>/p##_s##_<gesture>_###.csv`. The script creates the gesture directory if needed, lowercases the gesture name, the participant, session, and repetition fields. Each file is written to a temporary name and renamed into place only after the capture completes, so an interrupted capture cannot leave a truncated CSV behind.
 
 If a phone application was used instead, describe the exact process for:
 
