@@ -476,15 +476,7 @@ Possible rejection criteria include:
 
 ## Final Known Data Quality Issues
 
-[State whether any known issues remain.]
-
-Example:
-
-> No known malformed CSV files remained after final validation.
-
-or:
-
-> Three recordings contain shorter-than-normal capture windows but were retained because the gesture itself was complete.
+Overall, no known issues with data quality were present. Samples have been re-recorded over the course of this project for a variety of reasons, including issues like corruption issues and incorrect sample counts. All known issues were fixed before submission. 
 
 ---
 
