@@ -927,36 +927,36 @@ All team members contributed accelerometer recordings to the raw dataset.
 
 Before submission, the team should verify:
 
-- [ ] All required raw CSV files are included directly in the repository.
-- [ ] Raw CSV files are not stored only inside a ZIP archive.
-- [ ] All gesture classes are represented.
-- [ ] Classes are reasonably balanced.
-- [ ] Multiple repetitions exist for every gesture.
-- [ ] Multiple participants and/or sessions are represented.
-- [ ] Gesture definitions are clearly documented.
-- [ ] Idle/background behavior is clearly documented.
-- [ ] Sensor hardware is documented.
-- [ ] Sensor placement is documented.
-- [ ] Sampling rate and acceleration units are documented.
-- [ ] Exact capture software or command is documented.
-- [ ] CSV columns are documented.
-- [ ] Authoritative label source is explicitly documented.
-- [ ] Filename convention is documented.
-- [ ] Dataset variation is documented.
-- [ ] Data-quality rejection criteria are documented.
-- [ ] All raw files pass final validation.
-- [ ] `augment.py` executes successfully.
-- [ ] Augmentation methods are documented.
-- [ ] Augmented data does not overwrite raw data.
-- [ ] `train_demo.py` executes successfully.
-- [ ] Training and testing procedure is documented.
-- [ ] Model results are documented.
-- [ ] `requirements.txt` contains all required dependencies.
-- [ ] Commands in this README were tested in a clean environment.
-- [ ] Dataset  are documented.
-- [ ] Repository structure is clean and understandable.
-- [ ] Assignment self-check/bundle tool has been run.
-- [ ] Final repository was reviewed against the assignment rubric.
+- [x] All required raw CSV files are included directly in the repository.
+- [x] Raw CSV files are not stored only inside a ZIP archive.
+- [x] All gesture classes are represented.
+- [x] Classes are reasonably balanced.
+- [x] Multiple repetitions exist for every gesture.
+- [x] Multiple participants and/or sessions are represented.
+- [x] Gesture definitions are clearly documented.
+- [x] Idle/background behavior is clearly documented.
+- [x] Sensor hardware is documented.
+- [x] Sensor placement is documented.
+- [x] Sampling rate and acceleration units are documented.
+- [x] Exact capture software or command is documented.
+- [x] CSV columns are documented.
+- [x] Authoritative label source is explicitly documented.
+- [x] Filename convention is documented.
+- [x] Dataset variation is documented.
+- [x] Data-quality rejection criteria are documented.
+- [x] All raw files pass final validation.
+- [x] `augment.py` executes successfully.
+- [x] Augmentation methods are documented.
+- [x] Augmented data does not overwrite raw data.
+- [x] `train_demo.py` executes successfully.
+- [x] Training and testing procedure is documented.
+- [x] Model results are documented.
+- [x] `requirements.txt` contains all required dependencies.
+- [x] Commands in this README were tested in a clean environment.
+- [x] Dataset  are documented.
+- [x] Repository structure is clean and understandable.
+- [x] Assignment self-check/bundle tool has been run.
+- [x] Final repository was reviewed against the assignment rubric.
 
 ---
 
