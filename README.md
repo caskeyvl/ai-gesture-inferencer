@@ -476,7 +476,7 @@ Possible rejection criteria include:
 
 ## Final Known Data Quality Issues
 
-Overall, no known issues with data quality were present. Samples have been re-recorded over the course of this project for a variety of reasons, including issues like corruption issues and incorrect sample counts. All known issues were fixed before submission. 
+Overall, no known issues with data quality were present. Samples have been re-recorded over the course of this project for a variety of reasons, including issues like corruption and incorrect sample counts. All known issues were fixed before submission. 
 
 ---
 
