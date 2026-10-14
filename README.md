@@ -663,23 +663,43 @@ Run:
 python scripts/train_demo.py
 ```
 
-If command-line arguments are required, document the exact final command here.
+No arguments are needed when run from the repository root. Optional flags: `--no-augmented` trains on raw recordings
+only, `--test-size` sets the fraction of participants held out (default 0.2), and `--seed` changes the split and model
+seed (default 0). `--raw-dir` and `--aug-dir` point at other data folders.
 
 ---
 
 # Training Results
 
-Final demonstration results:
+Final demonstration results (`python scripts/train_demo.py`, 100 raw + 400 augmented recordings, held-out participant
+`p04`, 75 raw + 300 augmented training recordings, 25 raw test recordings):
 
 | Metric | Result |
 |---|---:|
-| Training accuracy | [X%] |
-| Test accuracy | [X%] |
-| Precision | [Optional] |
-| Recall | [Optional] |
-| F1-score | [Optional] |
+| Training accuracy | 100.0% |
+| Test accuracy | 76.0% |
+| Precision (macro avg) | 0.80 |
+| Recall (macro avg) | 0.76 |
+| F1-score (macro avg) | 0.73 |
 
-If a confusion matrix is generated, describe or include it here.
+Confusion matrix on the test set (rows = true, columns = predicted):
+
+| | circle | idle | square | triangle | wave |
+|---|---:|---:|---:|---:|---:|
+| `circle` | 5 | 0 | 0 | 0 | 0 |
+| `idle` | 0 | 5 | 0 | 0 | 0 |
+| `square` | 0 | 0 | 2 | 3 | 0 |
+| `triangle` | 0 | 0 | 0 | 5 | 0 |
+| `wave` | 2 | 0 | 1 | 0 | 2 |
+
+`idle`, `circle` and `triangle` are recognized every time. Most errors are squares predicted as triangles: both shapes
+have straight edges and corner pauses, and the summary-statistic features discard the sample order that would show
+four corners versus three. Training accuracy is 100% while test accuracy is lower, which is expected for a Random
+Forest on a small dataset and shows the gap between people the model has and has not seen.
+
+Rotating the held-out participant through all four (leave-one-participant-out) gives 52%, 52%, 76% and 44% for `p01`,
+`p02`, `p04` and `p05`, a mean of 56%, against 53% with `--no-augmented`. Accuracy depends strongly on which person is
+held out, since participants differ in gesture size and speed; chance level for five classes is 20%.
 
 Model accuracy itself is not the primary purpose of this project. The training demonstration exists to show that the submitted dataset can be consumed by a working machine learning pipeline.
 
