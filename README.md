@@ -51,7 +51,7 @@ components facing up, USB connector pointing toward the wrist.
 Include:
 
 - Starting position: Board flat and level, held at chest/neck height at the 12 o'clock point of the circle.
-- Direction of motion: Clockwise, seen by the team memeber.
+- Direction of motion: Clockwise, seen by the team member.
 - Approximate motion size: About 30 cm in diameter
 - End position: Back at the 12 o'clock starting point, one full loop completed, device held still.
 - Any important restrictions:One loop only, completed in roughly one to two seconds. Smooth continuous speed — no stopping partway around. The board stays flat; do not rotate the wrist to follow the curve.
@@ -64,7 +64,7 @@ Include:
 - Direction of motion: Clockwise — top-left edge, top right edge, bottom right edge, bottom left edge
 - Approximate motion size: About 30 cm per side
 - End position: Back at the top-left corner, device held still.
-- Any important restrictions: One lap only, about two seconds total. Pause very briefly (roughly a tenth of a second) at each corners and move in straight lines between them. The pauses are
+- Any important restrictions: One lap only, about two seconds total. Pause very briefly (roughly a tenth of a second) at each corner and move in straight lines between them. The pauses are
   what distinguish a square from a circle in the data, so do not round them off.
 
 ### `triangle`
@@ -82,7 +82,7 @@ Include:
 - Direction of motion: Side to side horizontally — right, then left, repeating. No vertical component.
 - Approximate motion size: About 30 cm of travel in each direction.
 - End position: Arm back near the center, device held still.
-- Any important restrictions: 4–6 passes total within about two seconds, at a steady rhythm. Keep the board flat and level throughout, its an arm motion not a wrist flick or a tilt.
+- Any important restrictions: 4–6 passes total within about two seconds, at a steady rhythm. Keep the board flat and level throughout, it's an arm motion not a wrist flick or a tilt.
 
 
 ### `idle`
@@ -510,43 +510,23 @@ The augmentation pipeline may apply the following accelerometer-appropriate tran
 
 ### Gaussian Noise / Jitter
 
-[Describe implementation.]
-
-Example purpose:
-
-> Small Gaussian noise simulates normal sensor measurement noise and small variations between recordings.
+Gaussian noise/jitter is implemented using NumPy's `rng.uniform()` method to first randomly prescribe some noise "strength". We then generate a noise vector of the same size as our data collection sample using NumPy's `rng.normal()` method. This noise vector is added to our original data sample, and saved as a new augmented sample. Using this method, we can simulate normal sensor noise and invariability between data collection runs, creating a more diverse and varied data set to train our model on.
 
 ### Amplitude Scaling
 
-[Describe implementation.]
-
-Example purpose:
-
-> Scaling the acceleration magnitude simulates natural differences in how strongly or quickly participants perform a gesture.
+Amplitude scaling takes advantage of NumPy's `rng.uniform()` method to randomly generate a number between 0.8 and 1.2. A data sample then gets multiplied by this number, creating a new scaled augmentation data sample. This simulates in our specific case, for example, differing sizes of our gestures (i.e. one person ends up drawing a circle that is slightly larger than the next). By scaling our data samples as an augmentation method, we can help further verify that our model is resistant to slight differences in the size of gestures completed. 
 
 ### Temporal Shift
 
-[Describe implementation.]
+Temporal shift augmentation is implemented in `augment.py` by first drawing a random integer shift *k* (via `rng.integers()`), bounded to ±10% of the sample length, and circularly shift the accelerometer columns by *k* positions using the `np.roll()` method. Because the roll wraps values around rather than discarding them, we overwrite the vacated end with our own padding. The original first sample gets padded to the beginning if *k* is positive, and the original last sample gets padded to the end if *k* is negative, so the output will never contain artificial wrap-around values.
 
-Example purpose:
-
-> Temporal shifting changes where the gesture occurs within the recording window while preserving the gesture itself.
+Temporal shifting simulates the natural variance in reaction time between the AI starting to "listen" to the model, and the time in which the gesture actually starts. Not every capture has the motion of the gesture starting or ending at the same sample index, and training on shifted copies keeps the model from learning where in the window a gesture happens, so it relies more on the overall shape of the gesture itself. 
 
 ### Small 3D Rotation
 
-[Describe implementation if used.]
+Small 3D rotations are implemented by drawing 3 random angles (for each axis) via NumPy's `rng.uniform()` method, each bounded to ±10°. This gets converted to radians and used to build a rotation matrix for each axis, and get combined in to a single rotation. The accelerometer x/y/z vector at every time stamp is multiplied by this matrix, rotating the whole recording in 3D by a small fixed amount, leaving the overall shape of the gesture itself untouched. 
 
-Example purpose:
-
-> Small rotations simulate realistic differences in device orientation between participants and recordings.
-
-## Why These Augmentations Were Chosen
-
-[Explain why the transformations are appropriate for accelerometer data.]
-
-Example:
-
-> These augmentations were selected because they represent realistic variations that could occur during gesture performance or sensor measurement. The transformations are kept small enough that the underlying gesture class should remain unchanged.
+Due to the device being hand-held, there will naturally be small differences in rotation when gestures are made. Applying small 3D rotations to data helps simulate these small differences in the way different people hold the board, and even in the differences between samples run by the same person. This helps keep the model from overfitting to one exact sensor orientation. 
 
 ## Running Augmentation
 
@@ -598,13 +578,13 @@ The augmentation flags available are as follows:
 
 | Method Arguments | Description |
 | --- | --- |
-| jitter | Gaussian noise applied via np.random.normal() method |
+| jitter | Gaussian noise applied via `rng.normal()` method |
 | scale | Amplitude scaling | 
 | shift | Temporal shift |
 | rotate | Small 3D rotation | 
 
-> ![Note]
-> Using `python augment.py --help` will return usage on how to use `augment.py` for quick referencing. 
+> [!Note]
+> Using `python scripts/augment.py --help` will return usage on how to use `augment.py` for quick referencing. 
 
 ---
 
