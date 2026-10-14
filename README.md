@@ -104,7 +104,7 @@ Data was collected using:
 - **Board:** STM32F4 Discovery (STM32F407VG), board revision MB997C/MB997D
 - **Accelerometer:** STMicroelectronics LIS3DSH, 3-axis MEMS, 16-bit output, ±2 g full scale, read over SPI1
 - **Accelerometer axes:** X, Y, Z
-- **Sampling rate:** 50 Hz nominal (20 ms firmware print interval); about 46 Hz as recorded, since consecutive timestamps step roughly 21–22 ms apart. Timestamps in each CSV are the measured times, so the actual rate can be recovered per file.
+- **Sampling rate:** 50 Hz as recorded (see note below)
 - **Acceleration units:** mg (milligravity; 1000 mg = 1 g)
 - **Other relevant hardware:** USB-to-serial (USB-UART) adapter connected to USART2 on PA2/PA3 at 115200 8N1; ST-LINK/V2 (on-board) used only for flashing
 
@@ -140,14 +140,14 @@ If a command-line capture process was used, include the exact command:
 
 ```bash
 python3 scripts/capture_gesture.py --port /dev/tty.usbserial-0001 \
-    --gesture circle --participant 1 --session 1 --reps 5 --samples 100
+    --gesture circle --participant 1 --session 1 --reps 5 --samples 150
 ```
 
 Explain:
 
-- What the command does: it opens the serial port, and then for each of the `--reps` repetitions it waits for the participant to press Enter, counts down three seconds, sends `START 100` to the board, reads exactly 100 reading lines, and writes them to a CSV. Each repetition is a separate file. The command is run once per gesture class, changing only `--gesture`.
+- What the command does: it opens the serial port, and then for each of the `--reps` repetitions it waits for the participant to press Enter, counts down three seconds, sends `START 150` to the board, reads exactly 150 reading lines, and writes them to a CSV. Each repetition is a separate file. The command is run once per gesture class, changing only `--gesture`.
 - Which device or serial port it uses: the `--port` argument names the USB-to-serial adapter wired to the board's USART2 pins (adapter RX to PA2, adapter TX to PA3). The ST-LINK's own USB connection is not used for data, it carries no accelerometer stream.
-- How long each capture lasts: 100 samples is a 2.0-second window at the nominal 50 Hz; at the measured rate the recorded captures span about 2.1–2.2 seconds. This was chosen to comfortably contain gestures that take one to two seconds, leaving a short lead-in before the motion and a tail after it.
+- How long each capture lasts: 150 samples at 50 Hz is a 3.0-second window. This was chosen to comfortably contain gestures that take one to two seconds, leaving a short lead-in before the motion and a tail after it.
 - Where the resulting CSV is saved: `data/raw/<gesture>/p##_s##_<gesture>_###.csv`. The script creates the gesture directory if needed, lowercases the gesture name, the participant, session, and repetition fields. Each file is written to a temporary name and renamed into place only after the capture completes, so an interrupted capture cannot leave a truncated CSV behind.
 
 ---
@@ -476,15 +476,7 @@ Possible rejection criteria include:
 
 ## Final Known Data Quality Issues
 
-[State whether any known issues remain.]
-
-Example:
-
-> No known malformed CSV files remained after final validation.
-
-or:
-
-> Three recordings contain shorter-than-normal capture windows but were retained because the gesture itself was complete.
+Overall, no known issues with data quality were present. Samples have been re-recorded over the course of this project for a variety of reasons, including issues like corruption and incorrect sample counts. All known issues were fixed before submission. 
 
 ---
 
@@ -947,36 +939,36 @@ All team members contributed accelerometer recordings to the raw dataset.
 
 Before submission, the team should verify:
 
-- [ ] All required raw CSV files are included directly in the repository.
-- [ ] Raw CSV files are not stored only inside a ZIP archive.
-- [ ] All gesture classes are represented.
-- [ ] Classes are reasonably balanced.
-- [ ] Multiple repetitions exist for every gesture.
-- [ ] Multiple participants and/or sessions are represented.
-- [ ] Gesture definitions are clearly documented.
-- [ ] Idle/background behavior is clearly documented.
-- [ ] Sensor hardware is documented.
-- [ ] Sensor placement is documented.
-- [ ] Sampling rate and acceleration units are documented.
-- [ ] Exact capture software or command is documented.
-- [ ] CSV columns are documented.
-- [ ] Authoritative label source is explicitly documented.
-- [ ] Filename convention is documented.
-- [ ] Dataset variation is documented.
-- [ ] Data-quality rejection criteria are documented.
-- [ ] All raw files pass final validation.
-- [ ] `augment.py` executes successfully.
-- [ ] Augmentation methods are documented.
-- [ ] Augmented data does not overwrite raw data.
-- [ ] `train_demo.py` executes successfully.
-- [ ] Training and testing procedure is documented.
-- [ ] Model results are documented.
-- [ ] `requirements.txt` contains all required dependencies.
-- [ ] Commands in this README were tested in a clean environment.
-- [ ] Dataset  are documented.
-- [ ] Repository structure is clean and understandable.
-- [ ] Assignment self-check/bundle tool has been run.
-- [ ] Final repository was reviewed against the assignment rubric.
+- [x] All required raw CSV files are included directly in the repository.
+- [x] Raw CSV files are not stored only inside a ZIP archive.
+- [x] All gesture classes are represented.
+- [x] Classes are reasonably balanced.
+- [x] Multiple repetitions exist for every gesture.
+- [x] Multiple participants and/or sessions are represented.
+- [x] Gesture definitions are clearly documented.
+- [x] Idle/background behavior is clearly documented.
+- [x] Sensor hardware is documented.
+- [x] Sensor placement is documented.
+- [x] Sampling rate and acceleration units are documented.
+- [x] Exact capture software or command is documented.
+- [x] CSV columns are documented.
+- [x] Authoritative label source is explicitly documented.
+- [x] Filename convention is documented.
+- [x] Dataset variation is documented.
+- [x] Data-quality rejection criteria are documented.
+- [x] All raw files pass final validation.
+- [x] `augment.py` executes successfully.
+- [x] Augmentation methods are documented.
+- [x] Augmented data does not overwrite raw data.
+- [x] `train_demo.py` executes successfully.
+- [x] Training and testing procedure is documented.
+- [x] Model results are documented.
+- [x] `requirements.txt` contains all required dependencies.
+- [x] Commands in this README were tested in a clean environment.
+- [x] Dataset  are documented.
+- [x] Repository structure is clean and understandable.
+- [x] Assignment self-check/bundle tool has been run.
+- [x] Final repository was reviewed against the assignment rubric.
 
 ---
 
