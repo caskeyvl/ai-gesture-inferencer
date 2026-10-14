@@ -104,7 +104,7 @@ Data was collected using:
 - **Board:** STM32F4 Discovery (STM32F407VG), board revision MB997C/MB997D
 - **Accelerometer:** STMicroelectronics LIS3DSH, 3-axis MEMS, 16-bit output, ±2 g full scale, read over SPI1
 - **Accelerometer axes:** X, Y, Z
-- **Sampling rate:** 50 Hz nominal (20 ms firmware print interval); about 46 Hz as recorded, since consecutive timestamps step roughly 21–22 ms apart. Timestamps in each CSV are the measured times, so the actual rate can be recovered per file.
+- **Sampling rate:** 50 Hz as recorded (see note below)
 - **Acceleration units:** mg (milligravity; 1000 mg = 1 g)
 - **Other relevant hardware:** USB-to-serial (USB-UART) adapter connected to USART2 on PA2/PA3 at 115200 8N1; ST-LINK/V2 (on-board) used only for flashing
 
@@ -140,14 +140,14 @@ If a command-line capture process was used, include the exact command:
 
 ```bash
 python3 scripts/capture_gesture.py --port /dev/tty.usbserial-0001 \
-    --gesture circle --participant 1 --session 1 --reps 5 --samples 100
+    --gesture circle --participant 1 --session 1 --reps 5 --samples 150
 ```
 
 Explain:
 
-- What the command does: it opens the serial port, and then for each of the `--reps` repetitions it waits for the participant to press Enter, counts down three seconds, sends `START 100` to the board, reads exactly 100 reading lines, and writes them to a CSV. Each repetition is a separate file. The command is run once per gesture class, changing only `--gesture`.
+- What the command does: it opens the serial port, and then for each of the `--reps` repetitions it waits for the participant to press Enter, counts down three seconds, sends `START 150` to the board, reads exactly 150 reading lines, and writes them to a CSV. Each repetition is a separate file. The command is run once per gesture class, changing only `--gesture`.
 - Which device or serial port it uses: the `--port` argument names the USB-to-serial adapter wired to the board's USART2 pins (adapter RX to PA2, adapter TX to PA3). The ST-LINK's own USB connection is not used for data, it carries no accelerometer stream.
-- How long each capture lasts: 100 samples is a 2.0-second window at the nominal 50 Hz; at the measured rate the recorded captures span about 2.1–2.2 seconds. This was chosen to comfortably contain gestures that take one to two seconds, leaving a short lead-in before the motion and a tail after it.
+- How long each capture lasts: 150 samples at 50 Hz is a 3.0-second window. This was chosen to comfortably contain gestures that take one to two seconds, leaving a short lead-in before the motion and a tail after it.
 - Where the resulting CSV is saved: `data/raw/<gesture>/p##_s##_<gesture>_###.csv`. The script creates the gesture directory if needed, lowercases the gesture name, the participant, session, and repetition fields. Each file is written to a temporary name and renamed into place only after the capture completes, so an interrupted capture cannot leave a truncated CSV behind.
 
 ---
